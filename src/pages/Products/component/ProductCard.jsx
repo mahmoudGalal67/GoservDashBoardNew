@@ -346,13 +346,50 @@ const ProductCard = ({
                 brand={currentBrand}
                 setcurrentTrademark={setcurrentTrademark}
               />
-              <div className="selectDetailsClass">
-                <select name="" placeholder="اختر تصنيف المنتج">
-                  {updatedProduct.moreDto.map((item) => (
+              <div className="selectDetailsClass text-sm  ">
+                <select
+                  name=""
+                  placeholder="اختر تصنيف المنتج"
+                  style={{ marginRight: 0, width: "100%" }}
+                >
+                  {/* {updatedProduct.moreDto.map((item) => (
                     <option key={item.more_id} value={item.more_id}>
                       {item.more_ar}
                     </option>
-                  ))}
+                  ))} */}
+                  <option value="">
+                    {" "}
+                    <i data-v-51c67c1f="" class="sicon-link"></i>نسخ رابط المنتج
+                  </option>
+                  <option value="">
+                    <li data-v-51c67c1f="">
+                      <i data-v-51c67c1f="" class="sicon-pages"></i> تكرار
+                      المنتج
+                    </li>
+                  </option>
+                  <option value="">
+                    <li data-v-51c67c1f="">
+                      <i data-v-51c67c1f="" class="sicon-poll"></i>إحصائيات
+                      المنتج
+                    </li>
+                  </option>
+                  <option value="">
+                    <li data-v-51c67c1f="">
+                      <i data-v-51c67c1f="" class="sicon-box"></i> استعراض طلبات
+                      المنتج
+                    </li>
+                  </option>
+                  <option value="">
+                    <li data-v-51c67c1f="">
+                      <i data-v-51c67c1f="" class="sicon-star"></i> استعراض
+                      تقييمات المنتج
+                    </li>
+                  </option>
+                  <option value="">
+                    <li data-v-51c67c1f="">
+                      <i data-v-51c67c1f="" class="sicon-trash"></i> حذف نهائي
+                    </li>
+                  </option>
                 </select>
               </div>
             </div>

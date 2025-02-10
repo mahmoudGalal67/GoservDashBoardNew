@@ -15,44 +15,14 @@ const ProductNotificationModal = ({ isColumn, product, setUpdatedProduct }) => {
     handleProductNotificationModalClose();
   };
 
-  const handleInputChange = (type, value, name, deep, lang) => {
-    if (deep) {
-      if (lang) {
-        setUpdatedProduct((prev) => ({
-          ...prev,
-          productDetailDto: [
-            {
-              ...prev[type][0],
-              [name + "_en"]: value,
-              [name + "_ar"]: value,
-            },
-          ],
-        }));
-      } else {
-        setUpdatedProduct((prev) => ({
-          ...prev,
-          productDetailDto: [
-            {
-              ...prev[type][0],
-              [name]: value,
-            },
-          ],
-        }));
-      }
-    } else {
-      if (lang) {
-        setUpdatedProduct((prev) => ({
-          ...prev,
-          [name + "_en"]: value,
-          [name + "_ar"]: value,
-        }));
-      } else {
-        setUpdatedProduct((prev) => ({
-          ...prev,
-          [name]: value,
-        }));
-      }
-    }
+  const handleAlertChange = (name, value) => {
+    setUpdatedProduct((prev) => ({
+      ...prev,
+      alertsDto: prev.alertsDto.map((alert) => ({
+        ...alert,
+        [name]: value,
+      })),
+    }));
   };
 
   return (
@@ -108,15 +78,7 @@ const ProductNotificationModal = ({ isColumn, product, setUpdatedProduct }) => {
                 <input
                   type="text"
                   value={product?.alertsDto[0].amount}
-                  onChange={(e) =>
-                    handleInputChange(
-                      "alertsDto",
-                      e.target.value,
-                      "amount",
-                      true,
-                      false
-                    )
-                  }
+                  onChange={(e) => handleAlertChange("amount", e.target.value)}
                   className="text-input"
                   placeholder="0"
                 />
@@ -145,13 +107,7 @@ const ProductNotificationModal = ({ isColumn, product, setUpdatedProduct }) => {
                   type="text"
                   value={product?.alertsDto[0].amount_of_clients}
                   onChange={(e) =>
-                    handleInputChange(
-                      "alertsDto",
-                      e.target.value,
-                      "amount_of_clients",
-                      true,
-                      false
-                    )
+                    handleAlertChange("amount_of_clients", e.target.value)
                   }
                   className="text-input"
                   placeholder="15"
@@ -177,13 +133,7 @@ const ProductNotificationModal = ({ isColumn, product, setUpdatedProduct }) => {
                   type="text"
                   value={product?.alertsDto[0].percentt}
                   onChange={(e) =>
-                    handleInputChange(
-                      "alertsDto",
-                      e.target.value,
-                      "percentt",
-                      true,
-                      false
-                    )
+                    handleAlertChange("percentt", e.target.value)
                   }
                   className="text-input"
                   placeholder="100"

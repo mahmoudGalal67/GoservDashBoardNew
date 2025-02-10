@@ -13,7 +13,7 @@ import "./SwiperOrders.css";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css/pagination";
 
-const SwiperOrders = ({ onCardClick, selectedIndex }) => {
+const SwiperOrders = ({ onCardClick, selectedIndex, ordersTypes }) => {
   const Orderdata = [
     {
       title: "جاري التوصيل",
@@ -147,7 +147,7 @@ const SwiperOrders = ({ onCardClick, selectedIndex }) => {
                 </h3>
               </div>
               <div>
-                <span>{item.count}</span>
+                <span>{ordersTypes[item.title]}</span>
               </div>
             </div>
           </div>

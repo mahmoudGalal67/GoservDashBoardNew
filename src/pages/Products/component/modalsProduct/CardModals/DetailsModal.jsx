@@ -1194,7 +1194,7 @@ const DetailsModal = ({
                 إلغاء
               </Button>
             </div>
-            <div>
+            <div onClick={handleDetailsModalClose}>
               <Button variant="primary">حفظ بيانات المنتج</Button>
             </div>
           </div>

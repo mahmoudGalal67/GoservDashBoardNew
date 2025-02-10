@@ -681,11 +681,14 @@ const OptionsModal = ({ isColumn, product, setUpdatedProduct }) => {
             </div>
           )}
         </Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="secondary" className="save-btn-options">
+        <Modal.Footer>
+          <Button
+            onClick={handleOptionsModalClose}
+            className="save-btn-options"
+          >
             حفظ
           </Button>
-        </Modal.Footer> */}
+        </Modal.Footer>
       </Modal>
     </>
   );

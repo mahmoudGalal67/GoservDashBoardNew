@@ -118,10 +118,10 @@ const TrademarkModal = ({
           Authorization: `Bearer ${cookies.usertoken}`,
         },
       });
+      handleTradeMarkModalClose();
 
       if (response.status === 200 || response.status === 201) {
         // setTradeMarks((prev) => [...prev, response.data[0]]);
-        handleTradeMarkModalClose();
         setloading(false);
         settrademarkNameAR("");
         settrademarkNameEN("");

@@ -36,7 +36,7 @@ const Sidebar = ({ userInfo }) => {
           top: "10px",
           right: "10px",
           zIndex: 100000000000,
-          background: "#067DD3",
+          background: "#76e8cd",
           color: "#fff",
           padding: "6px",
           borderRadius: "50%",
@@ -54,7 +54,7 @@ const Sidebar = ({ userInfo }) => {
           width: isOpen ? "260px" : "0",
           minHeight: "calc(100vh - 56px)",
           marginTop: "56px",
-          backgroundColor: "#f1f2f7 ",
+          backgroundColor: "#00414d ",
           overflowY: "scroll",
           height: "600px",
           position: "fixed",
@@ -103,12 +103,12 @@ const Sidebar = ({ userInfo }) => {
           </div>
         </div>
 
-        <p className="text-center ">
+        <p className="text-center text-white">
           {userInfo?.name ? userInfo?.name : "متجر الهدايا"}
         </p>
         <div
           style={{
-            border: "1px solid #067DD3",
+            border: "1px solid #76e8cd",
             borderRadius: "25px",
             width: "fit-content",
             fontSize: "14px",
@@ -132,17 +132,18 @@ const Sidebar = ({ userInfo }) => {
             <a
               href={`https://theme.sallaplus.com?id=${userInfo.userId}`}
               target="_blank"
+              className="text-white"
             >
               {" "}
               زياره المتجر
             </a>
-            <IoIosArrowBack />
+            <IoIosArrowBack color="white" />
           </p>
           {/* share icon */}
 
           <button
             style={{
-              backgroundColor: "#067DD3",
+              backgroundColor: "#76e8cd",
               height: "30.6px",
               padding: "4px 12px",
               fontSize: "13px",
@@ -210,7 +211,7 @@ const Sidebar = ({ userInfo }) => {
             <a
               href="#f"
               style={{
-                color: "#067DD3",
+                color: "#76e8cd",
                 fontWeight: "600",
               }}
             >
@@ -229,7 +230,7 @@ const Sidebar = ({ userInfo }) => {
             <a
               href="#f"
               style={{
-                color: "#067DD3",
+                color: "#76e8cd",
                 fontWeight: "600",
               }}
             >
@@ -260,7 +261,7 @@ const Sidebar = ({ userInfo }) => {
             <a
               href="#f"
               style={{
-                color: "#067DD3",
+                color: "#76e8cd",
                 fontWeight: "600",
               }}
             >
@@ -291,7 +292,7 @@ const Sidebar = ({ userInfo }) => {
             <a
               href="#f"
               style={{
-                color: "#067DD3",
+                color: "#76e8cd",
                 fontWeight: "600",
               }}
             >

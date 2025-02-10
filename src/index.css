@@ -5,7 +5,9 @@
 @tailwind utilities;
 
 :root {
-  --main-color: #067dd3;
+  --main-color: #00414d;
+  --color-secondary: #76e8cd;
+  --color-primary-darker: #003c47;
 }
 
 .btn-primary {
@@ -58,7 +60,7 @@ p {
 }
 
 .navBar .search-icon {
-  background-color: #f1f2f7;
+  background-color: var(--color-secondary);
 }
 
 .sidebar p {
@@ -85,10 +87,10 @@ li.navHeader:hover {
 }
 
 .sidebarList li {
-  color: var(--main-color);
+  color: white;
 }
 .sidebarList li:hover {
-  background: var(--main-color);
+  background: var(--color-primary-darker);
   border-radius: 24px;
   color: white;
 }
@@ -114,13 +116,13 @@ li.navHeader:hover {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #f1f2f7;
+  background-color: var(--color-secondary);
   border-radius: 4px;
   /* border: 1px solid #067DD3 ; */
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background-color: #067dd3;
+  background-color: var(--main-color);
   width: 6px;
 }
 
@@ -221,14 +223,14 @@ li.navHeader:hover {
 .month-summary article div {
   display: flex;
   flex-direction: column;
-  color: #067dd3;
+  color: #76e8cd;
 }
 
 .month-summary article button {
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  background-color: #067dd3;
+  background-color: #76e8cd;
   color: white;
   display: flex;
   justify-content: center;
@@ -427,7 +429,7 @@ aside ul li > div span {
   text-decoration: none;
   text-align: center;
   padding: 5px 10px;
-  background-color: var(--main-color) !important;
+  background-color: var(--color-secondary) !important;
   color: white;
   border: none !important;
   border-radius: 20px;
@@ -509,19 +511,20 @@ aside ul li > div span {
 
 .custom-scroll::-webkit-scrollbar {
   width: 12px;
+  background-color: #76e8cd;
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-  background-color: #067dd3;
+  background-color: #76e8cd;
   border-radius: 10px;
 }
 
 .custom-scroll::-webkit-scrollbar-thumb:hover {
-  background-color: #067dd3;
+  background-color: #76e8cd;
 }
 
 .custom-scroll::-webkit-scrollbar-track {
-  background-color: #067dd3;
+  background-color: #76e8cd;
   border-radius: 10px;
 }
 

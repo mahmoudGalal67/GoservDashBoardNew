@@ -85,10 +85,10 @@ const CategoryModal = ({ isColumn, setbrands, categoryId }) => {
         },
       });
 
+      handleCategoryModalClose();
       if (response.status === 200 || response.status === 201) {
         // alert("Brand added successfully");
         setbrands((prev) => [...prev, response.data[0]]);
-        setShowCategoryModal(false);
         setloading(false);
       }
     } catch (error) {

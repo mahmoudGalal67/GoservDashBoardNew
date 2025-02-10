@@ -14,6 +14,8 @@ function Orders({ darkMode, setDarkMode, userInfo }) {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
 
+  const [ordersTypes, setOrdersTypes] = useState({});
+
   const [selectedorders, setselectedorders] = useState([]);
 
   const currentUser = JSON.parse(localStorage.getItem("userInfo"));
@@ -21,6 +23,13 @@ function Orders({ darkMode, setDarkMode, userInfo }) {
   const [cookies, setCookie] = useCookies(["usertoken"]);
 
   const [orders, setorders] = useState([]);
+
+  const countOrdersByStatus = (orders) => {
+    return orders.reduce((acc, order) => {
+      acc[order.status] = (acc[order.status] || 0) + 1;
+      return acc;
+    }, {});
+  };
 
   useEffect(() => {
     const getorders = async () => {
@@ -32,12 +41,14 @@ function Orders({ darkMode, setDarkMode, userInfo }) {
           },
         });
         setorders(data);
+        setOrdersTypes(countOrdersByStatus(data));
       } catch (error) {
         console.log(error);
       }
     };
     getorders();
   }, []);
+
   let filterdOrders = selectedIndex
     ? orders.filter((order) => order.status == selectedIndex)
     : orders;
@@ -79,7 +90,11 @@ function Orders({ darkMode, setDarkMode, userInfo }) {
         <div style={{ width: "98%" }}>
           <HeaderComponent />
           <RequestHead />
-          <Swiper selectedIndex={selectedIndex} onCardClick={handleCardClick} />
+          <Swiper
+            selectedIndex={selectedIndex}
+            onCardClick={handleCardClick}
+            ordersTypes={ordersTypes}
+          />
           <OrderSummary
             setselectedorders={setselectedorders}
             selectedorders={selectedorders}

@@ -41,7 +41,7 @@ function Helper() {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            backgroundColor: "#a6abc8",
+            backgroundColor: "#76e8cd",
           }}
         >
           <Modal.Title>المقالات</Modal.Title>

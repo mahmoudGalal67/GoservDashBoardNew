@@ -90,7 +90,7 @@ const CategoryModal = ({
           Authorization: `Bearer ${cookies.usertoken}`,
         },
       });
-
+      handleCategoryModalClose();
       if (response.status === 200 || response.status === 201) {
         // alert("Brand added successfully");
         setcategories((prev) => [...prev, response.data[0]]);

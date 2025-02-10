@@ -47,7 +47,7 @@ const Navbar = ({ darkMode, setDarkMode, userInfo }) => {
         className="w-full lg:w-64 bg:white flex justify-center lg:block "
         style={{
           height: "100%",
-          backgroundColor: "#f1f2f7",
+          backgroundColor: "#00414d",
           padding: "5px 0",
           paddingRight: "18px",
         }}
@@ -73,7 +73,7 @@ const Navbar = ({ darkMode, setDarkMode, userInfo }) => {
             onKeyDown={(e) => handleSearch(e)}
             style={{
               maxWidth: "350px",
-              width: "300px !important",
+              width: "400px !important",
               height: "38px",
               border: "1px solid #eee",
               color: "#999",
@@ -94,7 +94,7 @@ const Navbar = ({ darkMode, setDarkMode, userInfo }) => {
 
           <Dropdown setpage={setpage} page={page} />
           <button className="search-icon flex items-center justify-center">
-            <IoSearch color="#067DD3" />
+            <IoSearch color="#00414d" />
           </button>
         </div>
 
@@ -103,7 +103,7 @@ const Navbar = ({ darkMode, setDarkMode, userInfo }) => {
             <button
               className="hidden lg:flex"
               style={{
-                border: "1px solid #067DD3",
+                border: "1px solid #76e8cd",
                 borderRadius: "50%",
                 cursor: "pointer",
                 width: "38px",
@@ -120,8 +120,8 @@ const Navbar = ({ darkMode, setDarkMode, userInfo }) => {
             <button
               className="mx-1 lg:mx-0"
               style={{
-                backgroundColor: darkMode ? "#067DD3" : "#fcfcfc",
-                border: "1px solid #067DD3",
+                backgroundColor: darkMode ? "#76e8cd" : "#fcfcfc",
+                border: "1px solid #76e8cd",
                 color: "black",
                 borderRadius: "50%",
                 cursor: "pointer",
