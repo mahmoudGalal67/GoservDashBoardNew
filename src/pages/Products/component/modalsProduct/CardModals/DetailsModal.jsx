@@ -11,7 +11,14 @@ import "react-quill/dist/quill.snow.css";
 import { faSlidersH } from "@fortawesome/free-solid-svg-icons";
 import { Request } from "../../../../../components/utils/Request";
 
-import { Document, Page } from "react-pdf";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+
+import { Document, Page, pdfjs } from "react-pdf";
+import "react-pdf/dist/esm/Page/TextLayer.css";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.1/pdf.worker.min.js`;
 
 const DetailsModal = ({
   isColumn,
@@ -20,6 +27,8 @@ const DetailsModal = ({
   brand,
   setcurrentTrademark,
 }) => {
+  const [numPages, setNumPages] = useState(null);
+
   const [tradeMarks, settradeMarks] = useState([]);
   const [cookies, setCookie] = useCookies(["userusertoken"]);
   const [file, setfile] = useState(null);
@@ -36,7 +45,7 @@ const DetailsModal = ({
   const [showCustomFields, setShowCustomFields] = useState(false);
   const [showProductDetailsSection, setShowProductDetailsSection] =
     useState(true);
-  const [numPages, setNumPages] = useState(null);
+
   const modules = {
     // #3 Add "image" to the toolbar
     toolbar: [
@@ -1128,12 +1137,12 @@ const DetailsModal = ({
                           <Form.Control
                             type="file"
                             style={{ display: "none" }}
+                            onChange={handleUploadPdf}
                             id="fileUpload"
                           />
                           <Form.Label
                             htmlFor="fileUpload"
                             className="file-upload-label"
-                            onChange={handleUploadPdf}
                             style={{
                               width: "100%",
                               outline: "none",
@@ -1144,21 +1153,8 @@ const DetailsModal = ({
                             }}
                           >
                             <i className="glyphicon glyphicon-folder-open"></i>
-                            استعراض
+                            {loading ? "lOADING ..." : "استعراض"}
                           </Form.Label>
-                          <Document
-                            file={file}
-                            onLoadSuccess={({ numPages }) =>
-                              setNumPages(numPages)
-                            }
-                          >
-                            {Array.from(new Array(numPages), (el, index) => (
-                              <Page
-                                key={`page_${index + 1}`}
-                                pageNumber={index + 1}
-                              />
-                            ))}
-                          </Document>
                         </div>
                       </>
                     )}
@@ -1203,6 +1199,25 @@ const DetailsModal = ({
                       </div>
                     )}
                   </div>
+                  {product.attached_filesDto.attached_file_name ||
+                    (file && (
+                      <div style={{ width: "600px", margin: "auto" }}>
+                        <Document
+                          file={
+                            file
+                              ? `https://salla111-001-site1.ptempurl.com/${file}`
+                              : `https://salla111-001-site1.ptempurl.com/${product.attached_filesDto.attached_file_name}`
+                          }
+                          onLoadSuccess={({ numPages }) =>
+                            setNumPages(numPages)
+                          }
+                        >
+                          {Array.from(new Array(numPages), (el, index) => (
+                            <Page key={index} pageNumber={index + 1} />
+                          ))}
+                        </Document>
+                      </div>
+                    ))}
                   <Button
                     variant="danger"
                     className="delete-button mt-5"
