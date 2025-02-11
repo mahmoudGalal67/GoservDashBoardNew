@@ -11,6 +11,8 @@ import "react-quill/dist/quill.snow.css";
 import { faSlidersH } from "@fortawesome/free-solid-svg-icons";
 import { Request } from "../../../../../components/utils/Request";
 
+import { Document, Page } from "react-pdf";
+
 const DetailsModal = ({
   isColumn,
   product,
@@ -20,7 +22,10 @@ const DetailsModal = ({
 }) => {
   const [tradeMarks, settradeMarks] = useState([]);
   const [cookies, setCookie] = useCookies(["userusertoken"]);
+  const [file, setfile] = useState(null);
 
+  const [loading, setloading] = useState(false);
+  const [err, seterr] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   const handleDetailsModalClose = () => setShowDetailsModal(false);
@@ -31,7 +36,7 @@ const DetailsModal = ({
   const [showCustomFields, setShowCustomFields] = useState(false);
   const [showProductDetailsSection, setShowProductDetailsSection] =
     useState(true);
-
+  const [numPages, setNumPages] = useState(null);
   const modules = {
     // #3 Add "image" to the toolbar
     toolbar: [
@@ -46,6 +51,29 @@ const DetailsModal = ({
       ["link", "image"],
       ["clean"],
     ],
+  };
+
+  const handleUploadPdf = async (e) => {
+    const formData = new FormData();
+    formData.append("pdf", e.target.files[0]);
+
+    try {
+      setloading(true);
+      const { data } = await Request({
+        url: `/api/Product_details/upload_single_pdf`,
+        method: "POST",
+        data: formData,
+        headers: {
+          Authorization: `Bearer  ${cookies.usertoken}`,
+        },
+      });
+      console.log(data);
+      setfile(data);
+      setloading(false);
+    } catch (error) {
+      console.log(error);
+      setloading(false);
+    }
   };
 
   useEffect(() => {
@@ -1105,6 +1133,7 @@ const DetailsModal = ({
                           <Form.Label
                             htmlFor="fileUpload"
                             className="file-upload-label"
+                            onChange={handleUploadPdf}
                             style={{
                               width: "100%",
                               outline: "none",
@@ -1117,6 +1146,19 @@ const DetailsModal = ({
                             <i className="glyphicon glyphicon-folder-open"></i>
                             استعراض
                           </Form.Label>
+                          <Document
+                            file={file}
+                            onLoadSuccess={({ numPages }) =>
+                              setNumPages(numPages)
+                            }
+                          >
+                            {Array.from(new Array(numPages), (el, index) => (
+                              <Page
+                                key={`page_${index + 1}`}
+                                pageNumber={index + 1}
+                              />
+                            ))}
+                          </Document>
                         </div>
                       </>
                     )}

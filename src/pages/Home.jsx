@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LineChart from "../components/Chart";
 import { GoPeople } from "react-icons/go";
 import { FaSackDollar } from "react-icons/fa6";
@@ -12,8 +12,33 @@ import { IoIosArrowBack } from "react-icons/io";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Helper from "../components/Helper";
+import { Request } from "../components/utils/Request";
 
 const Home = ({ darkMode, setDarkMode, userInfo }) => {
+  const [notifications, setnotifications] = useState([]);
+
+  const [loading, setloading] = useState(false);
+
+  const currentUser = JSON.parse(localStorage.getItem("userInfo"))?.userId;
+
+  useEffect(() => {
+    const getNotifications = async () => {
+      setloading(true);
+      try {
+        const { data } = await Request({
+          url: `/api/Clients/Getallnotifications?Admin_id=${currentUser}`,
+        });
+
+        setnotifications(data);
+        setloading(false);
+      } catch (error) {
+        console.log(error);
+        setloading(false);
+      }
+    };
+    getNotifications();
+  }, []);
+  console.log(notifications);
   return (
     <div
       className={`flex flex-wrap' ${darkMode ? "dark" : ""}`}
@@ -141,138 +166,33 @@ const Home = ({ darkMode, setDarkMode, userInfo }) => {
               التنبيهات
             </h3>
             <ul>
-              <li>
-                <div>
-                  <img
-                    src={avatar}
-                    alt="avatar"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      borderRadius: "50%",
-                    }}
-                  />
+              {notifications.map((item) => (
+                <li key={item.notifications_id}>
                   <div>
-                    <p> زائر أضاف عقد Dancing Iconic Swan للسلة</p>
-                    <span>منذ 13 ساعة</span>
+                    <img
+                      src={avatar}
+                      alt="avatar"
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "50%",
+                      }}
+                    />
+                    <div>
+                      <p>
+                        {" "}
+                        <span>{item.username}</span> {item.status}
+                      </p>
+                      <span>منذ 13 ساعة</span>
+                    </div>
                   </div>
-                </div>
-                <img
-                  src={productpic}
-                  alt="product-pic"
-                  style={{ width: "40px", height: "40px" }}
-                />
-              </li>
-              <li>
-                <div>
                   <img
-                    src={avatar}
-                    alt="avatar"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      borderRadius: "50%",
-                    }}
+                    src={productpic}
+                    alt="product-pic"
+                    style={{ width: "40px", height: "40px" }}
                   />
-                  <div>
-                    <p> زائر أضاف عقد Dancing Iconic Swan للسلة</p>
-                    <span>منذ 13 ساعة</span>
-                  </div>
-                </div>
-                <img
-                  src={productpic}
-                  alt="product-pic"
-                  style={{ width: "40px", height: "40px" }}
-                />
-              </li>
-              <li>
-                <div>
-                  <img
-                    src={avatar}
-                    alt="avatar"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      borderRadius: "50%",
-                    }}
-                  />
-                  <div>
-                    <p> زائر أضاف عقد Dancing Iconic Swan للسلة</p>
-                    <span>منذ 13 ساعة</span>
-                  </div>
-                </div>
-                <img
-                  src={productpic}
-                  alt="product-pic"
-                  style={{ width: "40px", height: "40px" }}
-                />
-              </li>
-              <li>
-                <div>
-                  <img
-                    src={avatar}
-                    alt="avatar"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      borderRadius: "50%",
-                    }}
-                  />
-                  <div>
-                    <p> زائر أضاف عقد Dancing Iconic Swan للسلة</p>
-                    <span>منذ 13 ساعة</span>
-                  </div>
-                </div>
-                <img
-                  src={productpic}
-                  alt="product-pic"
-                  style={{ width: "40px", height: "40px" }}
-                />
-              </li>
-              <li>
-                <div>
-                  <img
-                    src={avatar}
-                    alt="avatar"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      borderRadius: "50%",
-                    }}
-                  />
-                  <div>
-                    <p> زائر أضاف عقد Dancing Iconic Swan للسلة</p>
-                    <span>منذ 13 ساعة</span>
-                  </div>
-                </div>
-                <img
-                  src={productpic}
-                  alt="product-pic"
-                  style={{ width: "40px", height: "40px" }}
-                />
-              </li>
-              <li>
-                <div>
-                  <img
-                    src={avatar}
-                    alt="avatar"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      borderRadius: "50%",
-                    }}
-                  />
-                  <div>
-                    <p> زائر أضاف عقد Dancing Iconic Swan للسلة</p>
-                    <span>منذ 13 ساعة</span>
-                  </div>
-                </div>
-                <img
-                  src={productpic}
-                  alt="product-pic"
-                  style={{ width: "40px", height: "40px" }}
-                />
-              </li>
+                </li>
+              ))}
             </ul>
           </aside>
 

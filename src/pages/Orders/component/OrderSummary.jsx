@@ -73,6 +73,7 @@ const OrderSummary = ({
           method: "PUT",
           data: updatedorders,
         });
+        handleCloseReleaseModal();
         setorders((prev) =>
           prev.map((order) => {
             if (selectedorders.includes(order.order_id)) {
@@ -103,6 +104,7 @@ const OrderSummary = ({
         method: "DELETE",
         data: deletedorders,
       });
+      handleCloseReleaseModal();
       setorders((prev) =>
         prev.filter((order) => !selectedorders.includes(order.order_id))
       );
