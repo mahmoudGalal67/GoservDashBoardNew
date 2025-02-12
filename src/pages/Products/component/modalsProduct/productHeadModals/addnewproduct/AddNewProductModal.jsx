@@ -161,7 +161,7 @@ const AddNewProductModal = ({ categories }) => {
                 className="text-container"
                 onClick={() => handleAddProduct(item)}
               >
-                <h6> {item.category_name_ar}</h6>
+                <h6> {item.category_name_en}</h6>
                 <p> {item.details_ar}</p>
               </div>
               <div className="icon-container-drop">

@@ -282,32 +282,22 @@ const OptionsModal = ({ isColumn, product, setUpdatedProduct }) => {
                       </div>
                     </div>
                     {optiontype == "color" && (
-                      <div style={{ display: "flex" }}>
-                        <div className="option-container-body">
-                          <div className="option-input-body">
-                            <i
-                              className="sicon-type-square"
-                              style={{ color: "#aaa", paddingRight: "7px" }}
-                            ></i>
-                            <input
-                              type="text"
-                              placeholder="القيمة"
-                              value={option.hex_code}
-                              onChange={(e) =>
-                                handleOptionChange(e, i, "hex_code")
-                              }
-                              required
-                            />
-                          </div>
-
-                          <select
-                            className="option-select-body"
-                            style={{ border: "none" }}
-                          >
-                            <option value="AR">AR</option>
-                            <option value="EN">EN</option>
-                          </select>
-                        </div>
+                      <div style={{ display: "flex", marginInline: "15px" }}>
+                        <select
+                          className="option-select-body"
+                          style={{ border: "none", width: "100%" }}
+                          placeholder="القيمة"
+                          value={option.hex_code}
+                          onChange={(e) => handleOptionChange(e, i, "hex_code")}
+                          required
+                        >
+                          <option value="white">white</option>
+                          <option value="black">black</option>
+                          <option value="red">red</option>
+                          <option value="green">green</option>
+                          <option value="yellow">yellow</option>
+                          <option value="blue">blue</option>
+                        </select>
                       </div>
                     )}
                     {optiontype == "product_color_sizes" && (

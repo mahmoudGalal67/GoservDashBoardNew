@@ -76,15 +76,21 @@ const DetailsModal = ({
           Authorization: `Bearer  ${cookies.usertoken}`,
         },
       });
-      console.log(data);
+      setUpdatedProduct((prev) => ({
+        ...prev,
+        attached_filesDto: [
+          { ...prev.attached_filesDto[0], attached_file_name: data },
+        ],
+      }));
       setfile(data);
+      console.log(data);
+
       setloading(false);
     } catch (error) {
       console.log(error);
       setloading(false);
     }
   };
-
   useEffect(() => {
     const getTradeMarks = async () => {
       try {
@@ -1199,25 +1205,45 @@ const DetailsModal = ({
                       </div>
                     )}
                   </div>
-                  {product.attached_filesDto.attached_file_name ||
-                    (file && (
-                      <div style={{ width: "600px", margin: "auto" }}>
-                        <Document
-                          file={
-                            file
-                              ? `https://salla111-001-site1.ptempurl.com/${file}`
-                              : `https://salla111-001-site1.ptempurl.com/${product.attached_filesDto.attached_file_name}`
-                          }
-                          onLoadSuccess={({ numPages }) =>
-                            setNumPages(numPages)
-                          }
-                        >
-                          {Array.from(new Array(numPages), (el, index) => (
-                            <Page key={index} pageNumber={index + 1} />
-                          ))}
-                        </Document>
-                      </div>
-                    ))}
+                  {file && (
+                    <div style={{ width: "600px", margin: "auto" }}>
+                      <object
+                        data={`https://salla111-001-site1.ptempurl.com/${file}`}
+                        type="application/pdf"
+                        width="100%"
+                        height="800px"
+                      >
+                        <p>
+                          Your browser does not support PDFs.
+                          <a
+                            href={`https://salla111-001-site1.ptempurl.com/${file}`}
+                          >
+                            Download the PDF
+                          </a>
+                        </p>
+                      </object>
+                    </div>
+                  )}
+                  {product.attached_filesDto[0].attached_file_name && !file && (
+                    <div style={{ width: "600px", margin: "auto" }}>
+                      <object
+                        data={`https://salla111-001-site1.ptempurl.com/${product.attached_filesDto[0].attached_file_name}`}
+                        type="application/pdf"
+                        width="100%"
+                        height="800px"
+                      >
+                        <p>
+                          Your browser does not support PDFs.
+                          <a
+                            href={`https://salla111-001-site1.ptempurl.com/${product.attached_filesDto[0].attached_file_name}`}
+                          >
+                            Download the PDF
+                          </a>
+                          .
+                        </p>
+                      </object>
+                    </div>
+                  )}
                   <Button
                     variant="danger"
                     className="delete-button mt-5"

@@ -163,7 +163,7 @@ const TrademarkModal = ({
                 htmlFor="category"
                 style={{ marginRight: "16px", marginTop: "16px" }}
               >
-                Choose Trade Mark Category
+                Choose Category
               </label>
               <select
                 name="category"
@@ -184,7 +184,7 @@ const TrademarkModal = ({
                 htmlFor="category"
                 style={{ marginRight: "16px", marginTop: "16px" }}
               >
-                Choose Trade Mark Brand
+                Choose Brand
               </label>
 
               <select
@@ -193,7 +193,7 @@ const TrademarkModal = ({
                 required
               >
                 <option disabled selected>
-                  Choose Trade Mark Brand
+                  Choose Brand
                 </option>
                 {brands.map((brand) => (
                   <option key={brand.brand_id} value={brand.brand_id}>

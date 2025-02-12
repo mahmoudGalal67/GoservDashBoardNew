@@ -26,7 +26,6 @@ const Category = ({ category }) => {
     };
     getbrands();
   }, []);
-
   if (!category.brandsDto.length > 0) {
     return <></>;
   }

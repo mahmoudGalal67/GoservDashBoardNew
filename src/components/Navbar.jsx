@@ -18,8 +18,8 @@ const Navbar = ({ darkMode, setDarkMode, userInfo }) => {
 
   const navigate = useNavigate();
 
-  const handleSearch = (e) => {
-    if (e.key === "Enter") {
+  const handleSearch = (e, type) => {
+    if (e.key === "Enter" || type == "search") {
       if (page == "order") {
         navigate(`/${page}/${searach}`);
       } else {
@@ -94,7 +94,10 @@ const Navbar = ({ darkMode, setDarkMode, userInfo }) => {
 
           <Dropdown setpage={setpage} page={page} />
           <button className="search-icon flex items-center justify-center">
-            <IoSearch color="#00414d" />
+            <IoSearch
+              color="#00414d"
+              onClick={(e) => handleSearch(e, "search")}
+            />
           </button>
         </div>
 
