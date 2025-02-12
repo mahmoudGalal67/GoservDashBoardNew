@@ -183,7 +183,15 @@ const Home = ({ darkMode, setDarkMode, userInfo }) => {
                         {" "}
                         <span>{item.username}</span> {item.status}
                       </p>
-                      <span>منذ 13 ساعة</span>
+                      <span>
+                        {new Date(item.createdat).toLocaleString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
                     </div>
                   </div>
                   <img
