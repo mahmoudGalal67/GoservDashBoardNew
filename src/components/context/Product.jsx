@@ -32,10 +32,9 @@ const ProductReducer = (state, action) => {
         (b) => b.brand_id === parseInt(action.payload.brandId)
       );
 
-      // if (!brand1) {
-      //   alert("Brand not found");
-      //   return { ...state };
-      // }
+      if (!brand1) {
+        return { ...state };
+      }
       // Find the Product
       let updatedProduct = brand1.productDto.find(
         (P) => P.product_id === action.payload.product_id
