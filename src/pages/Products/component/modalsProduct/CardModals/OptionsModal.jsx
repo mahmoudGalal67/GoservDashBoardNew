@@ -213,10 +213,8 @@ const OptionsModal = ({ isColumn, product, setUpdatedProduct }) => {
                           className="option-input"
                           placeholder="اللون"
                           style={{ marginRight: "0px", border: "none" }}
-                          value={option.color_name}
-                          onChange={(e) =>
-                            handleOptionChange(e, i, "color_name")
-                          }
+                          value={option.hex_code}
+                          onChange={(e) => handleOptionChange(e, i, "hex_code")}
                           required
                         />
                         <select
@@ -291,7 +289,12 @@ const OptionsModal = ({ isColumn, product, setUpdatedProduct }) => {
                           onChange={(e) => handleOptionChange(e, i, "hex_code")}
                           required
                         >
-                          <option value="white">white</option>
+                          <option
+                            selected={value == option.hex_code}
+                            value="white"
+                          >
+                            white
+                          </option>
                           <option value="black">black</option>
                           <option value="red">red</option>
                           <option value="green">green</option>

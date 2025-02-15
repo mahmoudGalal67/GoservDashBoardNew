@@ -28,7 +28,7 @@ const AddNewProductModal = ({ categories }) => {
       product_colors: [
         {
           product_colors_id: 0,
-          color_name: null,
+          color_name: "color",
           price: 0,
           hex_code: null,
           photoes: [],
