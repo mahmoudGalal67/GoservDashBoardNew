@@ -35,7 +35,7 @@ const ProductsPage = (props) => {
       try {
         const { data } = await Request({
           url: searach
-            ? `/api/Clients/Getallsearch?name=${searach}`
+            ? `/api/Clients/search?name=${searach}`
             : `/api/Product_details/Getall?userid=${currentUser}`,
         });
         dispatch({

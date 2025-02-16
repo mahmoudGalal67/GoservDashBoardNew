@@ -96,7 +96,7 @@ const TrademarkModal = ({
       }
     };
     getbrands();
-  }, [activeCategory]);
+  }, [activeCategory, categories]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -147,7 +147,7 @@ const TrademarkModal = ({
         className="CategoryModal"
       >
         <div className="modal-header">
-          <h4>إضافة تصنيف جديد</h4>
+          <h4>إضافة معارض التجاريه جديدة</h4>
           <Button
             variant="link"
             onClick={handleTradeMarkModalClose}
@@ -210,7 +210,7 @@ const TrademarkModal = ({
                     type="text"
                     placeholder={
                       language === "AR"
-                        ? "ادخل اسم البراند"
+                        ? "ادخل المعارض التجاريه "
                         : "Enter the category name"
                     }
                     value={
@@ -242,7 +242,7 @@ const TrademarkModal = ({
                     type="text"
                     placeholder={
                       language === "AR"
-                        ? "ادخل وصف البراند"
+                        ? "ادخل وصف المعارض التجاريه"
                         : "Enter the category details"
                     }
                     value={language === "AR" ? DetaillsAR : Detailsen}
@@ -276,7 +276,12 @@ const TrademarkModal = ({
               />
               <label htmlFor="file-input" style={{ cursor: "pointer" }}>
                 <div className="upload-button">
-                  <p> {loading ? "Loading ..." : " اضف صورة للبراند"} </p>
+                  <p>
+                    {" "}
+                    {loading
+                      ? "Loading ..."
+                      : " اضف صورة المعارض التجاريه"}{" "}
+                  </p>
                 </div>
               </label>
               <div className="uploaded-image">
@@ -295,7 +300,7 @@ const TrademarkModal = ({
             إلغاء
           </Button>
           <Button variant="primary" type="submit" onClick={handleSubmit}>
-            {loading ? "loading ..." : "إضافة البراند"}
+            {loading ? "loading ..." : "إضافة المعارض التجاريه"}
           </Button>
         </Modal.Footer>
       </Modal>

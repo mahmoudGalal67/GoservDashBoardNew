@@ -22,6 +22,7 @@ const AddNewProductModal = ({ categories }) => {
       product_id: 0,
       categoryId: category.category_id,
       Placeholder: category.category_name_ar,
+      Placeholder_en: category.category_name_en,
       firstPhoto:
         "https://cdn.assets.salla.network/prod/admin/cp/assets/images/placeholder.png",
       form: true,

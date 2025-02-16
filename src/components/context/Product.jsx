@@ -62,15 +62,45 @@ const ProductReducer = (state, action) => {
         (cat) => cat.category_id === parseInt(action.payload.categoryId)
       );
       if (!category) {
-        alert("Category not found");
-        return { ...state };
+        let newCategory = {
+          category_id: action.payload.categoryId,
+          category_name_en: action.payload.Placeholder,
+          category_name_ar: action.payload.Placeholder,
+          details_en: null,
+          details_ar: "منتج 01",
+          created_at: "2025-02-16T02:21:16.693696",
+          updated_at: "2025-02-16T02:21:16.6937054",
+          brandsDto: [
+            {
+              brand_id: 1,
+              brand_name: "عامه",
+              details: "عامه",
+              add_to_main_brand: true,
+              created_at: null,
+              updated_at: null,
+              productDto: [action.payload],
+              trade_marksDto: [
+                {
+                  trade_mark_id: 1,
+                  trade_mark_name_en: "general",
+                  trade_mark_name_ar: "عامه",
+                  trade_mark_details_en: "general",
+                  trade_mark_details_ar: "عامه",
+                },
+              ],
+            },
+          ],
+        };
+        state.products = [...state.products, newCategory];
+        return {
+          ...state,
+        };
       }
 
       // Find the brand
       // const brand = category.brandsDto.find((b) => b.brand_id === parseInt(1));
       const brand = category.brandsDto[0];
       if (!brand) {
-        alert("Brand not found");
         return { ...state };
       }
       // Find the Product

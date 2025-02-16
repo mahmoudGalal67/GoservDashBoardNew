@@ -9,7 +9,9 @@ const FilterModal = ({ allProducts }) => {
   const { dispatch, products } = useContext(ProductContext);
 
   const [checkedItems, setCheckedItems] = useState({});
-
+  const [productBrands, setproductBrands] = useState([]);
+  const [productTypes, setproductTypes] = useState([]);
+  const [categories, setcategories] = useState([]);
   const [filters, setFilters] = useState({
     category_id: [], // For multiple selected categories
     brand_id: [], // For multiple selected brands
@@ -20,30 +22,45 @@ const FilterModal = ({ allProducts }) => {
 
   const handleShowFilterModal = () => setShowFilterModal(true);
   const handleCloseFilterModal = () => setShowFilterModal(false);
-
-  const categories = allProducts.map((product) => ({
-    id: product.category_id,
-    name: product.category_name_ar,
-  }));
-  let productBrands = [];
-  allProducts.map((category) => {
-    category.brandsDto.map((brand) => {
-      productBrands.push({ id: brand.brand_id, name: brand.brand_name });
+  useEffect(() => {
+    setcategories(
+      allProducts.map((product) => ({
+        id: product.category_id,
+        name: product.category_name_ar,
+      }))
+    );
+    const brandsArray = [];
+    allProducts.map((category) => {
+      category.brandsDto.map((brand) => {
+        brandsArray.push({ id: brand.brand_id, name: brand.brand_name });
+      });
     });
-  });
-  let productTypes = [];
-  allProducts.map((category) => {
-    category.brandsDto.map((brand) => {
-      brand.trade_marksDto.map((trademark) => {
-        productTypes.push({
-          id: trademark.trade_mark_id,
-          name: trademark.trade_mark_name_ar,
-          trademark: trademark,
+    setproductBrands(
+      brandsArray.filter(
+        (brand, index, self) =>
+          index === self.findIndex((b) => b.name === brand.name)
+      )
+    );
+    const typesArray = [];
+
+    allProducts.map((category) => {
+      category.brandsDto.map((brand) => {
+        brand.trade_marksDto.map((trademark) => {
+          typesArray.push({
+            id: trademark.trade_mark_id,
+            name: trademark.trade_mark_name_ar,
+            trademark: trademark,
+          });
         });
       });
     });
-  });
-
+    setproductTypes(
+      typesArray.filter(
+        (types, index, self) =>
+          index === self.findIndex((b) => b.name === types.name)
+      )
+    );
+  }, [allProducts]);
   // Function to handle checkbox changes (for category_id, brand_id, and color_name)
   const handleCheckboxChange = (filterKey, value) => (e) => {
     const { checked } = e.target;
@@ -57,7 +74,7 @@ const FilterModal = ({ allProducts }) => {
       };
     });
   };
-
+  console.log(filters);
   // Filter function
   const filterProducts = () => {
     let filtered = JSON.parse(JSON.stringify(allProducts));
@@ -296,6 +313,7 @@ const FilterModal = ({ allProducts }) => {
                 border: "none",
                 width: "160px",
               }}
+              onClick={() => handleCloseFilterModal()}
             >
               عرض النتائج
             </Button>
@@ -306,6 +324,13 @@ const FilterModal = ({ allProducts }) => {
                 margin: "0 10px",
                 width: "90px",
               }}
+              onClick={() =>
+                setFilters({
+                  category_id: [],
+                  brand_id: [],
+                  tradeMark_id: [],
+                })
+              }
             >
               إعادة تعيين
             </Button>

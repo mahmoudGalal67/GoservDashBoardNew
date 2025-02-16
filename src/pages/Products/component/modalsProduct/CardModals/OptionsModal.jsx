@@ -290,16 +290,41 @@ const OptionsModal = ({ isColumn, product, setUpdatedProduct }) => {
                           required
                         >
                           <option
-                            selected={value == option.hex_code}
+                            selected={option.hex_code == "white"}
                             value="white"
                           >
                             white
                           </option>
-                          <option value="black">black</option>
-                          <option value="red">red</option>
-                          <option value="green">green</option>
-                          <option value="yellow">yellow</option>
-                          <option value="blue">blue</option>
+                          <option
+                            selected={option.hex_code == "black"}
+                            value="black"
+                          >
+                            black
+                          </option>
+                          <option
+                            selected={option.hex_code == "red"}
+                            value="red"
+                          >
+                            red
+                          </option>
+                          <option
+                            selected={option.hex_code == "green"}
+                            value="green"
+                          >
+                            green
+                          </option>
+                          <option
+                            selected={option.hex_code == "yellow"}
+                            value="yellow"
+                          >
+                            yellow
+                          </option>
+                          <option
+                            selected={option.hex_code == "blue"}
+                            value="blue"
+                          >
+                            blue
+                          </option>
                         </select>
                       </div>
                     )}
