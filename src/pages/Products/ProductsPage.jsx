@@ -79,7 +79,7 @@ const ProductsPage = (props) => {
       >
         <div className="headerComponent" style={{ width: "98%" }}>
           <HeaderComponent />
-          <ProductHead allProducts={allProducts} />
+          <ProductHead allProducts={products} />
           {loading ? (
             <DotLoader
               color="#2ffff3"

@@ -91,9 +91,9 @@ const ProductReducer = (state, action) => {
             },
           ],
         };
-        state.products = [...state.products, newCategory];
         return {
           ...state,
+          products: [...state.products, newCategory],
         };
       }
 

@@ -9,8 +9,8 @@ import { useCookies } from "react-cookie";
 import { Request } from "../../../components/utils/Request";
 
 const ProductHead = ({ allProducts }) => {
-  const [categories, setcategories] = useState([]);
   const currentUser = JSON.parse(localStorage.getItem("userInfo"))?.userId;
+  const [categories, setcategories] = useState([]);
 
   const [cookies, setCookie] = useCookies(["userusertoken"]);
   useEffect(() => {
@@ -35,7 +35,11 @@ const ProductHead = ({ allProducts }) => {
         <AddNewProductModal categories={categories} />
       </div>
       <div className="header-left">
-        <FilterModal allProducts={allProducts} />
+        <FilterModal
+          allProducts={allProducts}
+          categories={categories}
+          setcategories={setcategories}
+        />
         <ServiceModal setcategories={setcategories} categories={categories} />
       </div>
     </div>

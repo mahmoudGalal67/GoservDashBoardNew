@@ -4,14 +4,19 @@ import { Modal, Button, Form } from "react-bootstrap";
 import ExportModal from "../export/ExportModal";
 import "../../../ProductHead.css";
 import { ProductContext } from "../../../../../../components/context/Product";
+import { Request } from "../../../../../../components/utils/Request";
+import { useCookies } from "react-cookie";
 
-const FilterModal = ({ allProducts }) => {
+const FilterModal = ({ allProducts, categories, setcategories }) => {
   const { dispatch, products } = useContext(ProductContext);
-
+  const [brands, setbrands] = useState([]);
+  const [tradeMarks, settradeMarks] = useState([]);
+  const [activecategory, setactivecategory] = useState();
+  const [activebrand, setactivebrand] = useState();
+  const [filtersProducts, setfiltersProducts] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
   const [productBrands, setproductBrands] = useState([]);
   const [productTypes, setproductTypes] = useState([]);
-  const [categories, setcategories] = useState([]);
   const [filters, setFilters] = useState({
     category_id: [], // For multiple selected categories
     brand_id: [], // For multiple selected brands
@@ -19,50 +24,92 @@ const FilterModal = ({ allProducts }) => {
   });
 
   const [showFilterModal, setShowFilterModal] = useState(false);
+  const [cookies, setCookie] = useCookies(["usertoken"]);
 
   const handleShowFilterModal = () => setShowFilterModal(true);
   const handleCloseFilterModal = () => setShowFilterModal(false);
-  useEffect(() => {
-    setcategories(
-      allProducts.map((product) => ({
-        id: product.category_id,
-        name: product.category_name_ar,
-      }))
-    );
-    const brandsArray = [];
-    allProducts.map((category) => {
-      category.brandsDto.map((brand) => {
-        brandsArray.push({ id: brand.brand_id, name: brand.brand_name });
-      });
-    });
-    setproductBrands(
-      brandsArray.filter(
-        (brand, index, self) =>
-          index === self.findIndex((b) => b.name === brand.name)
-      )
-    );
-    const typesArray = [];
+  const currentUser = JSON.parse(localStorage.getItem("userInfo"))?.userId;
 
-    allProducts.map((category) => {
-      category.brandsDto.map((brand) => {
-        brand.trade_marksDto.map((trademark) => {
-          typesArray.push({
-            id: trademark.trade_mark_id,
-            name: trademark.trade_mark_name_ar,
-            trademark: trademark,
-          });
-        });
-      });
+  useEffect(() => {
+    setfiltersProducts((prevFiltersProducts) => {
+      // Get the IDs of the current and new products
+      const prevIds = new Set(
+        prevFiltersProducts.map((product) => product.category_id)
+      );
+      const newProducts = allProducts.filter(
+        (product) => !prevIds.has(product.category_id)
+      );
+      // If there are new products, add them to the existing state
+      if (newProducts.length > 0) {
+        return [...prevFiltersProducts, ...newProducts];
+      }
+
+      // Otherwise, return the previous state unchanged
+      return prevFiltersProducts;
     });
-    setproductTypes(
-      typesArray.filter(
-        (types, index, self) =>
-          index === self.findIndex((b) => b.name === types.name)
-      )
-    );
   }, [allProducts]);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const { data } = await Request({
+          url: `/Getallcategories?userid=${currentUser}`,
+          headers: {
+            Authorization: `Bearer ${cookies.usertoken}`,
+          },
+        });
+
+        setcategories(data);
+        setactivecategory(data[0].category_id);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getCategories();
+  }, []);
+  useEffect(() => {
+    const getbrands = async () => {
+      try {
+        const { data } = await Request({
+          url: `/Getallbrands?catid=${activecategory}`,
+          headers: {
+            Authorization: `Bearer ${cookies.usertoken}`,
+          },
+        });
+
+        setbrands(data);
+        setactivebrand(data[0].brand_id);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getbrands();
+  }, [activecategory]);
+  useEffect(() => {
+    const gettadeMarks = async () => {
+      try {
+        const { data } = await Request({
+          url: `/GetallTrade_marks?bid=${activebrand}`,
+          headers: {
+            Authorization: `Bearer ${cookies.usertoken}`,
+          },
+        });
+
+        settradeMarks(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    gettadeMarks();
+  }, [activebrand]);
+
   // Function to handle checkbox changes (for category_id, brand_id, and color_name)
   const handleCheckboxChange = (filterKey, value) => (e) => {
+    if (filterKey == "category_id") {
+      setactivecategory(value);
+    } else if (filterKey == "brand_id") {
+      setactivebrand(value);
+    }
     const { checked } = e.target;
     setFilters((prev) => {
       const updatedValues = checked
@@ -73,11 +120,19 @@ const FilterModal = ({ allProducts }) => {
         [filterKey]: updatedValues,
       };
     });
+    setFilters((prev) => {
+      const updatedValues = checked
+        ? [value] // Add value if checked
+        : []; // Remove value if unchecked
+      return {
+        ...prev,
+        [filterKey]: updatedValues,
+      };
+    });
   };
-  console.log(filters);
   // Filter function
   const filterProducts = () => {
-    let filtered = JSON.parse(JSON.stringify(allProducts));
+    let filtered = JSON.parse(JSON.stringify(filtersProducts));
     const { category_id, brand_id, tradeMark_id } = filters;
 
     // First, globally filter products by the selected criteria
@@ -209,17 +264,17 @@ const FilterModal = ({ allProducts }) => {
                         <input
                           type="checkbox"
                           style={{ marginLeft: "10px" }}
-                          id={category.id}
-                          value={category.id}
+                          id={category.category_id}
+                          value={category.category_id}
                           onChange={handleCheckboxChange(
                             "category_id",
-                            category.id.toString()
+                            category.category_id.toString()
                           )}
                           checked={filters.category_id.includes(
-                            category.id.toString()
+                            category.category_id.toString()
                           )}
                         />
-                        {category.name}
+                        {category.category_name_ar}
                       </label>
                     </div>
                   ))}
@@ -233,23 +288,23 @@ const FilterModal = ({ allProducts }) => {
                   </div>
                 </Accordion.Header>
                 <Accordion.Body>
-                  {productBrands.map((brand, index) => (
+                  {brands.map((brand, index) => (
                     <div key={index} style={{ textAlign: "right" }}>
                       <label>
                         <input
                           type="checkbox"
                           style={{ marginLeft: "10px" }}
-                          id={brand.id}
-                          value={brand.id}
+                          id={brand.brand_id}
+                          value={brand.brand_id}
                           onChange={handleCheckboxChange(
                             "brand_id",
-                            brand.id.toString()
+                            brand.brand_id.toString()
                           )}
                           checked={filters.brand_id.includes(
-                            brand.id.toString()
+                            brand.brand_id.toString()
                           )}
                         />
-                        {brand.name}
+                        {brand.brand_name}
                       </label>
                     </div>
                   ))}
@@ -262,23 +317,23 @@ const FilterModal = ({ allProducts }) => {
                   </div>
                 </Accordion.Header>
                 <Accordion.Body>
-                  {productTypes.map((type, index) => (
+                  {tradeMarks.map((type, index) => (
                     <div key={index} style={{ textAlign: "right" }}>
                       <label>
                         <input
                           type="checkbox"
                           style={{ marginLeft: "10px" }}
-                          id={type.id}
-                          value={type.id}
+                          id={type.trade_mark_id}
+                          value={type.trade_mark_id}
                           onChange={handleCheckboxChange(
                             "tradeMark_id",
-                            type.id.toString()
+                            type.trade_mark_id.toString()
                           )}
                           checked={filters.tradeMark_id.includes(
-                            type.id.toString()
+                            type.trade_mark_id.toString()
                           )}
                         />
-                        {type.name}
+                        {type.trade_mark_name_ar}
                       </label>
                     </div>
                   ))}

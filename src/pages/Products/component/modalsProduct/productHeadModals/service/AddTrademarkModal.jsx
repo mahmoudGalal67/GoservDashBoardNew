@@ -101,8 +101,8 @@ const TrademarkModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-      trade_mark_name_en: trademarkNameAR,
-      trade_mark_name_ar: trademarkNameEN,
+      trade_mark_name_en: trademarkNameEN,
+      trade_mark_name_ar: trademarkNameAR,
       trade_mark_details_en: Detailsen,
       trade_mark_details_ar: DetaillsAR,
       trade_mark_photo: file,
