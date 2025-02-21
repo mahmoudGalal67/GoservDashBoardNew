@@ -22,7 +22,7 @@ const ProductReducer = (state, action) => {
       );
 
       if (!category1) {
-        alert("Category not found");
+        // alert("Category not found");
         return { ...state };
       }
 
@@ -33,6 +33,7 @@ const ProductReducer = (state, action) => {
       );
 
       if (!brand1) {
+        // alert("Brand not found");
         return { ...state };
       }
       // Find the Product
@@ -72,7 +73,7 @@ const ProductReducer = (state, action) => {
           updated_at: "2025-02-16T02:21:16.6937054",
           brandsDto: [
             {
-              brand_id: 1,
+              brand_id: action.payload.brandId,
               brand_name: "عامه",
               details: "عامه",
               add_to_main_brand: true,
@@ -81,7 +82,7 @@ const ProductReducer = (state, action) => {
               productDto: [action.payload],
               trade_marksDto: [
                 {
-                  trade_mark_id: 1,
+                  trade_mark_id: action.payload.trademarkId,
                   trade_mark_name_en: "general",
                   trade_mark_name_ar: "عامه",
                   trade_mark_details_en: "general",

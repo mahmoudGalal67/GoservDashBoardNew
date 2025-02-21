@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Clients.css";
 import HeaderComponent from "./component/HeaderComponent";
 import Sidebar from "../../components/Sidebar";
@@ -7,7 +7,67 @@ import ClientHead from "./component/ClientHead";
 import CustomerList from "./component/CustomerList";
 import ClientGroups from "./component/ClientGroups";
 
+import { useCookies } from "react-cookie";
+import { Request } from "../../components/utils/Request";
+
 function Clients({ darkMode, setDarkMode, userInfo }) {
+  const [cookies, setCookie] = useCookies(["usertoken"]);
+  const currentUser = JSON.parse(localStorage.getItem("userInfo"));
+
+  const [clients, setclients] = useState([]);
+  const [totalClients, settotalClients] = useState();
+  const [CountUsersfirst, setCountUsersfirst] = useState();
+
+  useEffect(() => {
+    const getclients = async () => {
+      try {
+        const { data } = await Request({
+          url: `/api/UsersController/Getusers?admin_id=${currentUser.userId}`,
+          headers: {
+            Authorization: `Bearer ${cookies.usertoken}`,
+          },
+        });
+        setclients(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getclients();
+  }, []);
+
+  useEffect(() => {
+    const getTotalClients = async () => {
+      try {
+        const { data } = await Request({
+          url: `/api/UsersController/CountUsers?admin_id=${currentUser.userId}`,
+          headers: {
+            Authorization: `Bearer ${cookies.usertoken}`,
+          },
+        });
+        settotalClients(data.totalUsers);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getTotalClients();
+  }, []);
+  useEffect(() => {
+    const getCountUsersfirst = async () => {
+      try {
+        const { data } = await Request({
+          url: `/api/UsersController/CountUsersfirst?admin_id=${currentUser.userId}`,
+          headers: {
+            Authorization: `Bearer ${cookies.usertoken}`,
+          },
+        });
+        setCountUsersfirst(data.totalUsers);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getCountUsersfirst();
+  }, []);
+
   return (
     <div
       className={`flex flex-wrap' ${darkMode ? "dark" : ""}`}
@@ -34,9 +94,13 @@ function Clients({ darkMode, setDarkMode, userInfo }) {
         }}
       >
         <HeaderComponent />
-        <ClientGroups style={{ width: "98%" }} />
+        <ClientGroups
+          style={{ width: "98%" }}
+          CountUsersfirst={CountUsersfirst}
+          totalClients={totalClients}
+        />
         <ClientHead style={{ width: "100%" }} />
-        <CustomerList />
+        <CustomerList clients={clients} />
       </main>
     </div>
   );

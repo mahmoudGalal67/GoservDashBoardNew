@@ -47,6 +47,7 @@
 .client-contact {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   margin-top: 10px;
 }
 
@@ -67,8 +68,20 @@
   gap: 5px;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
+.client-image .editClient-image {
+  background-color: #77c1e3;
+  border-radius: 50%;
+  padding: 5px;
+  position: absolute;
+  bottom: 30%;
+  right: 24px;
+  cursor: pointer;
+}
+.client-image .editClient-image svg {
+}
 .client-image img {
   border-radius: 50%;
   width: 80px;
@@ -112,5 +125,8 @@
 @media (max-width: 500px) {
   .modal-dialog.client {
     max-width: 100% !important;
+  }
+  .client-info {
+    flex-direction: column;
   }
 }

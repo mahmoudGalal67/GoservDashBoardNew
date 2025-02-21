@@ -14,13 +14,14 @@ const FilterModal = ({ allProducts, categories, setcategories }) => {
   const [activecategory, setactivecategory] = useState();
   const [activebrand, setactivebrand] = useState();
   const [filtersProducts, setfiltersProducts] = useState([]);
+  const [updatedProducts, setupdatedProducts] = useState([...allProducts]);
   const [checkedItems, setCheckedItems] = useState({});
   const [productBrands, setproductBrands] = useState([]);
   const [productTypes, setproductTypes] = useState([]);
   const [filters, setFilters] = useState({
-    category_id: [], // For multiple selected categories
-    brand_id: [], // For multiple selected brands
-    tradeMark_id: [], // For multiple selected tradeMarks
+    category_id: [0], // For multiple selected categories
+    brand_id: [0], // For multiple selected brands
+    tradeMark_id: [0], // For multiple selected tradeMarks
   });
 
   const [showFilterModal, setShowFilterModal] = useState(false);
@@ -29,25 +30,31 @@ const FilterModal = ({ allProducts, categories, setcategories }) => {
   const handleShowFilterModal = () => setShowFilterModal(true);
   const handleCloseFilterModal = () => setShowFilterModal(false);
   const currentUser = JSON.parse(localStorage.getItem("userInfo"))?.userId;
+  useEffect(() => {}, [filters]);
 
   useEffect(() => {
-    setfiltersProducts((prevFiltersProducts) => {
-      // Get the IDs of the current and new products
-      const prevIds = new Set(
-        prevFiltersProducts.map((product) => product.category_id)
-      );
-      const newProducts = allProducts.filter(
-        (product) => !prevIds.has(product.category_id)
-      );
-      // If there are new products, add them to the existing state
-      if (newProducts.length > 0) {
-        return [...prevFiltersProducts, ...newProducts];
+    const getCategories = async () => {
+      try {
+        const { data } = await Request({
+          url: `/api/Product_details/Getallfilter?catid=${
+            filters.category_id[0] || 0
+          }&bid=${filters.brand_id[0] || 0}&statid=0&tradeid=${
+            filters.tradeMark_id[0] || 0
+          }`,
+          headers: {
+            Authorization: `Bearer ${cookies.usertoken}`,
+          },
+        });
+        dispatch({
+          type: "fetchProducts",
+          payload: data,
+        });
+      } catch (error) {
+        console.log(error);
       }
-
-      // Otherwise, return the previous state unchanged
-      return prevFiltersProducts;
-    });
-  }, [allProducts]);
+    };
+    getCategories();
+  }, [filters]);
 
   useEffect(() => {
     const getCategories = async () => {
@@ -78,7 +85,7 @@ const FilterModal = ({ allProducts, categories, setcategories }) => {
         });
 
         setbrands(data);
-        setactivebrand(data[0].brand_id);
+        setactivebrand(data[0]?.brand_id);
       } catch (error) {
         console.log(error);
       }
@@ -102,7 +109,6 @@ const FilterModal = ({ allProducts, categories, setcategories }) => {
     };
     gettadeMarks();
   }, [activebrand]);
-
   // Function to handle checkbox changes (for category_id, brand_id, and color_name)
   const handleCheckboxChange = (filterKey, value) => (e) => {
     if (filterKey == "category_id") {
@@ -120,6 +126,26 @@ const FilterModal = ({ allProducts, categories, setcategories }) => {
         [filterKey]: updatedValues,
       };
     });
+    if (filterKey == "category_id" && !checked) {
+      setFilters((prev) => {
+        return {
+          category_id: [0],
+          brand_id: [0],
+          tradeMark_id: [0],
+        };
+      });
+      return;
+    }
+    if (filterKey == "brand_id" && !checked) {
+      setFilters((prev) => {
+        return {
+          ...prev,
+          brand_id: [0],
+          tradeMark_id: [0],
+        };
+      });
+      return;
+    }
     setFilters((prev) => {
       const updatedValues = checked
         ? [value] // Add value if checked
@@ -199,12 +225,12 @@ const FilterModal = ({ allProducts, categories, setcategories }) => {
   };
 
   // Get the filtered products
-  useEffect(() => {
-    dispatch({
-      type: "fetchProducts",
-      payload: filterProducts(),
-    });
-  }, [filters]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "fetchProducts",
+  //     payload: filterProducts(),
+  //   });
+  // }, [filters]);
 
   return (
     <>

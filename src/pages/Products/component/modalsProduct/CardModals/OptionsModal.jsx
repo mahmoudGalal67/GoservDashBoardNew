@@ -444,7 +444,7 @@ const OptionsModal = ({ isColumn, product, setUpdatedProduct }) => {
                           {option.photoes?.map((image, index) => (
                             <div key={index} className="uploaded-image">
                               <img
-                                src={`https://salla111-001-site1.ptempurl.com/${image}`}
+                                src={`https://salla1111-001-site1.ptempurl.com/${image}`}
                                 alt={`Uploaded ${index + 1}`}
                               />
                             </div>

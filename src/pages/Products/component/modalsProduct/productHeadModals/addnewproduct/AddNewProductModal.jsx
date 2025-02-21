@@ -21,6 +21,8 @@ const AddNewProductModal = ({ categories }) => {
     const newProductData = {
       product_id: 0,
       categoryId: category.category_id,
+      brandId: category.brandsdto[0].brand_id,
+      trademarkId: category.brandsdto[0].trade_marksdto[0].trade_mark_id,
       Placeholder: category.category_name_ar,
       Placeholder_en: category.category_name_en,
       firstPhoto:
@@ -162,7 +164,7 @@ const AddNewProductModal = ({ categories }) => {
                 className="text-container"
                 onClick={() => handleAddProduct(item)}
               >
-                <h6> {item.category_name_en}</h6>
+                <h6> {item.category_name_ar}</h6>
                 <p> {item.details_ar}</p>
               </div>
               <div className="icon-container-drop">

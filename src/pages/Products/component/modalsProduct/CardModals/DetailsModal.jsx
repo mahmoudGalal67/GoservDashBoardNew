@@ -1208,7 +1208,7 @@ const DetailsModal = ({
                   {file && (
                     <div style={{ width: "600px", margin: "auto" }}>
                       <object
-                        data={`https://salla111-001-site1.ptempurl.com/${file}`}
+                        data={`https://salla1111-001-site1.ptempurl.com/${file}`}
                         type="application/pdf"
                         width="100%"
                         height="800px"
@@ -1216,7 +1216,7 @@ const DetailsModal = ({
                         <p>
                           Your browser does not support PDFs.
                           <a
-                            href={`https://salla111-001-site1.ptempurl.com/${file}`}
+                            href={`https://salla1111-001-site1.ptempurl.com/${file}`}
                           >
                             Download the PDF
                           </a>
@@ -1227,7 +1227,7 @@ const DetailsModal = ({
                   {product.attached_filesDto[0].attached_file_name && !file && (
                     <div style={{ width: "600px", margin: "auto" }}>
                       <object
-                        data={`https://salla111-001-site1.ptempurl.com/${product.attached_filesDto[0].attached_file_name}`}
+                        data={`https://salla1111-001-site1.ptempurl.com/${product.attached_filesDto[0].attached_file_name}`}
                         type="application/pdf"
                         width="100%"
                         height="800px"
@@ -1235,7 +1235,7 @@ const DetailsModal = ({
                         <p>
                           Your browser does not support PDFs.
                           <a
-                            href={`https://salla111-001-site1.ptempurl.com/${product.attached_filesDto[0].attached_file_name}`}
+                            href={`https://salla1111-001-site1.ptempurl.com/${product.attached_filesDto[0].attached_file_name}`}
                           >
                             Download the PDF
                           </a>

@@ -49,6 +49,7 @@ const Category = ({ category, activeCategory }) => {
                       productBrand={brand.brand_id}
                       productCategory={category.category_id}
                       activeCategory={activeCategory}
+                      producTradeMark={brand.trade_marksDto[0].trade_mark_id}
                     />
                   );
                 })}

@@ -42,10 +42,11 @@ const ProductCard = ({
   productCategory,
   setbrands,
   brands,
+  producTradeMark,
 }) => {
   const [updatedProduct, setUpdatedProduct] = useState(product);
   const [currentBrand, setcurrentBrand] = useState(productBrand);
-  const [currentTrademark, setcurrentTrademark] = useState(1);
+  const [currentTrademark, setcurrentTrademark] = useState(producTradeMark);
 
   const [cookies, setCookie] = useCookies(["usertoken"]);
   const currentUser = JSON.parse(localStorage.getItem("userInfo"))?.userId;
@@ -177,7 +178,7 @@ const ProductCard = ({
               src={
                 !updatedProduct.updated && updatedProduct.form
                   ? updatedProduct.firstPhoto
-                  : `https://salla111-001-site1.ptempurl.com/${updatedProduct.photoes[0]}`
+                  : `https://salla1111-001-site1.ptempurl.com/${updatedProduct.photoes[0]}`
               }
               alt=""
             />

@@ -2,7 +2,7 @@ import React from "react";
 import "./ClientGroupStyle.css";
 import { FaPlus } from "react-icons/fa";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-const ClientGroups = () => {
+const ClientGroups = ({ totalClients, CountUsersfirst }) => {
   return (
     <div style={{ width: "100%" }}>
       <div className="client-groups-container" style={{ width: "100%" }}>
@@ -15,14 +15,14 @@ const ClientGroups = () => {
             <i className="sicon-group client-sicon"></i>
             <div style={{ marginTop: "15px" }}>
               <h5>جميع العملاء</h5>
-              <p>91 عميل</p>
+              <p>{totalClients} عميل</p>
             </div>
           </div>
           <div className="client-card order-group">
             <i className="sicon-users client-sicon"></i>
             <div style={{ marginTop: "15px" }}>
               <h5>اول طلب</h5>
-              <p>85 عميل</p>
+              <p>{CountUsersfirst} عميل</p>
             </div>
           </div>
           <div className="client-card client-new-group">

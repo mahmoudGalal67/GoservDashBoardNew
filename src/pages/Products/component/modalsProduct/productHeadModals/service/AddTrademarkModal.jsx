@@ -39,7 +39,9 @@ const TrademarkModal = ({
     const value = e.target.value;
     if (language === "AR") {
       settrademarkNameAR(value);
+      settrademarkNameEN(value);
     } else {
+      settrademarkNameAR(value);
       settrademarkNameEN(value);
     }
   };
@@ -288,7 +290,7 @@ const TrademarkModal = ({
                 <img
                   style={{ width: "100%" }}
                   src={
-                    file && `https://salla111-001-site1.ptempurl.com/${file}`
+                    file && `https://salla1111-001-site1.ptempurl.com/${file}`
                   }
                 />
               </div>

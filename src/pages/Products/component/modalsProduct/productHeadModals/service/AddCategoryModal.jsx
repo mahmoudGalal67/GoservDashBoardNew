@@ -33,7 +33,9 @@ const CategoryModal = ({
     const value = e.target.value;
     if (language === "AR") {
       setCategoryNameAR(value);
+      setCategoryNameEN(value);
     } else {
+      setCategoryNameAR(value);
       setCategoryNameEN(value);
     }
   };
@@ -61,7 +63,6 @@ const CategoryModal = ({
           Authorization: `Bearer  ${cookies.usertoken}`,
         },
       });
-      console.log(data);
       setfile(data);
       setloading(false);
     } catch (error) {
@@ -96,6 +97,10 @@ const CategoryModal = ({
         setcategories((prev) => [...prev, response.data[0]]);
         handleCategoryModalClose();
         setloading(false);
+        setCategoryNameAR("");
+        setCategoryNameEN("");
+        setDetaillsAR("");
+        setDetailsen("");
       }
     } catch (error) {
       console.error("Error adding category", error);
@@ -205,7 +210,7 @@ const CategoryModal = ({
                 <img
                   style={{ width: "100%" }}
                   src={
-                    file && `https://salla111-001-site1.ptempurl.com/${file}`
+                    file && `https://salla1111-001-site1.ptempurl.com/${file}`
                   }
                 />
               </div>

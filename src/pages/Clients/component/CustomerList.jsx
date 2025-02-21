@@ -3,7 +3,7 @@ import "./CustomerList.css";
 import Image1 from "../IMG/avatar_male.webp";
 import { Link } from "react-router-dom";
 
-const CustomerList = () => {
+const CustomerList = ({ clients }) => {
   const customers = [
     { name: "عيسي همامي", status: "جديد", country: "صبيا" },
     { name: "Layan الشهراني", status: "جديد", country: "أبو ظبي" },
@@ -39,40 +39,38 @@ const CustomerList = () => {
       <div className="customerList-section">
         <div>
           <ul className="customer-list">
-            {customers.map((customer, index) => (
+            {clients.map((client, index) => (
               <li key={index} className="customer-list-item">
-                <Link to={"/client/1"}>
+                <Link to={`/client/${client.userId}`}>
                   <div className="customer-info">
                     <input
                       type="checkbox"
                       className="header-checkbox-client-list"
                     />
                     <span className="customer-avatar">
-                      <img src={Image1} alt="" />
+                      <img src={client.userPhoto || Image1} alt="" />
                     </span>
                     <div className="customer-details">
                       <span className="customer-name">
-                        {customer.name}{" "}
+                        {client.name}{" "}
                         <span className="customer-status mx-1">
-                          {customer.status}
+                          {client.status}
                         </span>
                       </span>
-                      <button className="first-order-btn">
+                      {/* <button className="first-order-btn">
                         {" "}
                         <i
                           className="sicon-group"
                           style={{ color: "#00414d" }}
                         ></i>
                         اول طلب
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </Link>
 
                 <div>
-                  <span className="customer-country-name">
-                    {customer.country}
-                  </span>
+                  <span className="customer-country-name">{client.email}</span>
                 </div>
               </li>
             ))}

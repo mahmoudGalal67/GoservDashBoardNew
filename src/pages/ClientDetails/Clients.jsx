@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Clients.css";
 import HeaderComponent from "./component/HeaderComponent";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
 import OrderSummary from "../Orders/component/OrderSummary";
 import { Modal } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { Request } from "../../components/utils/Request";
 
 function Clients({ darkMode, setDarkMode, userInfo }) {
   const [showReleaseModal, setShowReleaseModal] = useState(false);
@@ -18,6 +21,102 @@ function Clients({ darkMode, setDarkMode, userInfo }) {
   const [showblockClient, setShowblockClient] = useState(false);
   const handleShowblockClient = () => setShowblockClient(true);
   const handleCloseblockClient = () => setShowblockClient(false);
+
+  const [cookies, setCookie] = useCookies(["usertoken"]);
+  const currentUser = JSON.parse(localStorage.getItem("userInfo"));
+  const [loading, setloading] = useState(false);
+  const [selectedorders, setselectedorders] = useState([]);
+
+  const [client, setclient] = useState({});
+  const [order, setorder] = useState([]);
+
+  const { id } = useParams();
+  useEffect(() => {
+    const getclient = async () => {
+      try {
+        const { data } = await Request({
+          url: `/api/UsersController/getuserbyid?id=${id}&admin_id=${currentUser.userId}`,
+          headers: {
+            Authorization: `Bearer ${cookies.usertoken}`,
+          },
+        });
+        setclient(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getclient();
+  }, []);
+
+  useEffect(() => {
+    const getorder = async () => {
+      try {
+        const { data } = await Request({
+          url: `/api/Clients/getorder_client?userid=${id}`,
+          headers: {
+            Authorization: `Bearer ${cookies.usertoken}`,
+          },
+        });
+        setorder(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getorder();
+  }, []);
+
+  const updateClientImage = async (name, value) => {
+    const formData = new FormData();
+    formData.append("photo", value);
+
+    try {
+      setloading(true);
+      const { data } = await Request({
+        url: `/upload_single_photo`,
+        method: "POST",
+        data: formData,
+        headers: {
+          Authorization: `Bearer  ${cookies.usertoken}`,
+        },
+      });
+      Request({
+        url: `/api/UsersController/Userprofile?id=${id}&admin_id=${currentUser.userId}`,
+        data: { ...client, userPhoto: data },
+        headers: {
+          Authorization: `Bearer ${cookies.usertoken}`,
+        },
+      });
+      handleClientChange(name, data);
+      setloading(false);
+    } catch (error) {
+      console.log(error);
+      setloading(false);
+    }
+  };
+
+  const updateClient = async () => {
+    try {
+      setloading(true);
+      const { data } = await Request({
+        url: `/api/UsersController/Userprofile?id=${id}&admin_id=${currentUser.userId}`,
+        data: { ...client },
+        headers: {
+          Authorization: `Bearer ${cookies.usertoken}`,
+        },
+      });
+      setclient(data);
+      setloading(false);
+      handleCloseeditClient();
+    } catch (error) {
+      setloading(false);
+      console.log(error);
+    }
+  };
+
+  const handleClientChange = (name, value) => {
+    setclient((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
     <div
       className={`flex flex-wrap' ${darkMode ? "dark" : ""}`}
@@ -57,13 +156,42 @@ function Clients({ darkMode, setDarkMode, userInfo }) {
           </div>
           <div className="client-info">
             <div className="client-image">
+              <input
+                type="file"
+                id="clientImage"
+                onChange={(e) =>
+                  updateClientImage(e.target.name, e.target.files[0])
+                }
+                name="userPhoto"
+                style={{ display: "none" }}
+              />
+              <label className="editClient-image" htmlFor="clientImage">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
+                  />
+                </svg>
+              </label>
               <img
                 alt="صورة العميل"
                 height="80"
-                src="https://storage.googleapis.com/a1aa/image/26DILztuhfSpdi6cjDSaJtd2eNBre8W4Md2vDfeATr56bwDhC.jpg"
+                src={
+                  client.userPhoto
+                    ? `https://salla1111-001-site1.ptempurl.com/${client.userPhoto}`
+                    : "https://storage.googleapis.com/a1aa/image/26DILztuhfSpdi6cjDSaJtd2eNBre8W4Md2vDfeATr56bwDhC.jpg"
+                }
                 width="80"
               />
-              <p>فجر جابر</p>
+              <p>{client.name}</p>
               <p>تاريخ الميلاد غير مدخل</p>
             </div>
             <div className="client-details">
@@ -84,30 +212,36 @@ function Clients({ darkMode, setDarkMode, userInfo }) {
                 منضم لمجموعة العملاء: اول طلب
               </p>
               <div className="phone-cover ">
-                <a href="tel:+966#########">
-                  966#########
+                <a href={`tel:${client.mobile}`}>
+                  {client.mobile}
                   <i class="ml-2 sicon-phone center inline-icon start"></i>
                 </a>
               </div>
               <div className="client-contact">
-                <a href="#">
+                <a href={`https://wa.me/${client.mobile}`} target="_blank">
                   <i class="ml-2 sicon-whatsapp"></i>
                   واتساب
                 </a>
-                <a href="#">
+                <a
+                  href={`sms:${client.mobile}?body=${client.email}Hello%20there!`}
+                >
                   <i class="ml-2 sicon-chat-message-alt"></i>
                   رسالة نصية
                 </a>
-
-                <a href="#">
+                <a href={`mailto:${client.email}`}>
                   <i class="ml-2 sicon-mail"></i>
-                  ايميل
+                  {client.email}{" "}
                 </a>
               </div>
             </div>
           </div>
         </div>
-        <OrderSummary orders={[]} />
+        <OrderSummary
+          setselectedorders={setselectedorders}
+          selectedorders={selectedorders}
+          orders={order}
+          setorders={setorder}
+        />
       </main>
       <Modal
         show={showReleaseModal}
@@ -170,19 +304,27 @@ function Clients({ darkMode, setDarkMode, userInfo }) {
                 <input
                   type="text"
                   className="form-control"
+                  name="name"
                   id="firstName"
-                  value="فجر"
+                  onChange={(e) =>
+                    handleClientChange(e.target.name, e.target.value)
+                  }
+                  value={client?.name}
                 />
               </div>
               <div className="mb-3">
                 <label htmlFor="lastName" className="form-label">
-                  اسم العائلة
+                  رقم الجوال
                 </label>
                 <input
                   type="text"
                   className="form-control"
+                  name="mobile"
                   id="lastName"
-                  value="جابر"
+                  value={client?.mobile}
+                  onChange={(e) =>
+                    handleClientChange(e.target.name, e.target.value)
+                  }
                 />
               </div>
               <div className="mb-3">
@@ -193,7 +335,11 @@ function Clients({ darkMode, setDarkMode, userInfo }) {
                   type="email"
                   className="form-control"
                   id="email"
-                  value="no_reply@salla.sa"
+                  name="email"
+                  value={client?.email}
+                  onChange={(e) =>
+                    handleClientChange(e.target.name, e.target.value)
+                  }
                 />
               </div>
               <div className="mb-3">
@@ -207,14 +353,19 @@ function Clients({ darkMode, setDarkMode, userInfo }) {
                   النوع
                 </label>
                 <select className="form-select" id="gender">
-                  <option>النوع</option>
+                  <option>ذكر</option>
+                  <option>أنثي</option>
                 </select>
               </div>
             </form>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-save mr-auto">
-              حفظ
+            <button
+              type="button"
+              className="btn btn-save mr-auto"
+              onClick={updateClient}
+            >
+              {loading ? "Loading ..." : "حفظ"}
             </button>
           </div>
         </Modal.Body>
