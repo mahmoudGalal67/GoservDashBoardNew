@@ -22,6 +22,8 @@ const Navbar = ({ darkMode, setDarkMode, userInfo }) => {
     if (e.key === "Enter" || type == "search") {
       if (page == "order") {
         navigate(`/${page}/${searach}`);
+      } else if (page == "clients") {
+        navigate(`/${page}?search=${searach}`);
       } else {
         navigate(`/${page}?search=${searach}`);
       }

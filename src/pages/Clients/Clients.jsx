@@ -9,6 +9,7 @@ import ClientGroups from "./component/ClientGroups";
 
 import { useCookies } from "react-cookie";
 import { Request } from "../../components/utils/Request";
+import { useSearchParams } from "react-router-dom";
 
 function Clients({ darkMode, setDarkMode, userInfo }) {
   const [cookies, setCookie] = useCookies(["usertoken"]);
@@ -18,11 +19,14 @@ function Clients({ darkMode, setDarkMode, userInfo }) {
   const [totalClients, settotalClients] = useState();
   const [CountUsersfirst, setCountUsersfirst] = useState();
 
+  const [searchParams] = useSearchParams();
+  const searach = searchParams.get("search");
+
   useEffect(() => {
     const getclients = async () => {
       try {
         const { data } = await Request({
-          url: `/api/UsersController/Getusers?admin_id=${currentUser.userId}`,
+          url: `/api/UsersController/CountUsersFirstOrder`,
           headers: {
             Authorization: `Bearer ${cookies.usertoken}`,
           },
@@ -39,7 +43,7 @@ function Clients({ darkMode, setDarkMode, userInfo }) {
     const getTotalClients = async () => {
       try {
         const { data } = await Request({
-          url: `/api/UsersController/CountUsers?admin_id=${currentUser.userId}`,
+          url: `/api/UsersController/CountUsers?name=${searach}&mobile=${searach}&admin_id=${currentUser.userId}`,
           headers: {
             Authorization: `Bearer ${cookies.usertoken}`,
           },

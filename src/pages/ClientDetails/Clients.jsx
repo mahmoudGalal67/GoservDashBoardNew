@@ -74,7 +74,7 @@ function Clients({ darkMode, setDarkMode, userInfo }) {
       const { data } = await Request({
         url: `/upload_single_photo`,
         method: "POST",
-        data: formData,
+        data: [formData],
         headers: {
           Authorization: `Bearer  ${cookies.usertoken}`,
         },
@@ -99,7 +99,7 @@ function Clients({ darkMode, setDarkMode, userInfo }) {
       setloading(true);
       const { data } = await Request({
         url: `/api/UsersController/Userprofile?id=${id}&admin_id=${currentUser.userId}`,
-        data: { ...client },
+        data: [{ ...client }],
         headers: {
           Authorization: `Bearer ${cookies.usertoken}`,
         },

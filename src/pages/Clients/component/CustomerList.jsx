@@ -41,23 +41,31 @@ const CustomerList = ({ clients }) => {
           <ul className="customer-list">
             {clients.map((client, index) => (
               <li key={index} className="customer-list-item">
-                <Link to={`/client/${client.userId}`}>
-                  <div className="customer-info">
-                    <input
-                      type="checkbox"
-                      className="header-checkbox-client-list"
-                    />
+                <div className="customer-info">
+                  <input
+                    type="checkbox"
+                    className="header-checkbox-client-list"
+                  />
+                  <Link to={`/client/${client.userId}`}>
                     <span className="customer-avatar">
-                      <img src={client.userPhoto || Image1} alt="" />
+                      <img
+                        src={
+                          client.userPhoto == "string"
+                            ? Image1
+                            : client.userPhoto
+                        }
+                        alt=""
+                      />
                     </span>
-                    <div className="customer-details">
-                      <span className="customer-name">
-                        {client.name}{" "}
-                        <span className="customer-status mx-1">
-                          {client.status}
-                        </span>
+                  </Link>
+                  <div className="customer-details">
+                    <span className="customer-name">
+                      {client.name}{" "}
+                      <span className="customer-status mx-1">
+                        {client.status}
                       </span>
-                      {/* <button className="first-order-btn">
+                    </span>
+                    {/* <button className="first-order-btn">
                         {" "}
                         <i
                           className="sicon-group"
@@ -65,9 +73,8 @@ const CustomerList = ({ clients }) => {
                         ></i>
                         اول طلب
                       </button> */}
-                    </div>
                   </div>
-                </Link>
+                </div>
 
                 <div>
                   <span className="customer-country-name">{client.email}</span>
