@@ -29,7 +29,7 @@ const Profileropdown = ({ setDarkMode }) => {
   const HandleLogout = (e) => {
     e.preventDefault();
     localStorage.removeItem("userInfo");
-    Cookies.remove("usertoken");
+    Cookies.remove("usertoken", { path: "/" });
     window.location.href = "https://sallaplus.com";
   };
 
