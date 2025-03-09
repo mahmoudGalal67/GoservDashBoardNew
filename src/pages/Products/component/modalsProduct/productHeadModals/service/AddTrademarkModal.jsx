@@ -98,7 +98,7 @@ const TrademarkModal = ({
       }
     };
     getbrands();
-  }, [activeCategory, categories]);
+  }, [ShowTradeMark]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

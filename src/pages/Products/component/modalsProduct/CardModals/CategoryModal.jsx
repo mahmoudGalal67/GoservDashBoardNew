@@ -54,7 +54,6 @@ const CategoryModal = ({ isColumn, setbrands, categoryId }) => {
           Authorization: `Bearer  ${cookies.usertoken}`,
         },
       });
-      console.log(data);
       setfile(data);
       setloading(false);
     } catch (error) {
@@ -90,6 +89,8 @@ const CategoryModal = ({ isColumn, setbrands, categoryId }) => {
         // alert("Brand added successfully");
         setbrands((prev) => [...prev, response.data[0]]);
         setloading(false);
+        setCategoryNameAR("");
+        setCategoryNameEN("");
       }
     } catch (error) {
       console.error("Error adding category", error);

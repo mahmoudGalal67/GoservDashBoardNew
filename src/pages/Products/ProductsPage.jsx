@@ -51,6 +51,7 @@ const ProductsPage = (props) => {
     };
     getProduts();
   }, [searach]);
+  console.log(allProducts);
 
   return (
     <div
